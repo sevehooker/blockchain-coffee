@@ -26,7 +26,7 @@ contract DistributorRole {
 
   // Define a function 'isDistributor' to check this role
   function isDistributor(address account) public view returns (bool) {
-    return distributors.has(account);
+    return Roles.has(distributors, account);
   }
 
   // Define a function 'addDistributor' that adds this role
@@ -41,13 +41,13 @@ contract DistributorRole {
 
   // Define an internal function '_addDistributor' to add this role, called by 'addDistributor'
   function _addDistributor(address account) internal {
-    distributors.add(account);
+    Roles.add(distributors, account);
     emit DistributorAdded(account);
   }
 
   // Define an internal function '_removeDistributor' to remove this role, called by 'removeDistributor'
   function _removeDistributor(address account) internal {
-    distributors.remove(account);
+    Roles.remove(distributors, account);
     emit DistributorRemoved(account);
   }
 }

@@ -26,7 +26,7 @@ contract ConsumerRole {
 
   // Define a function 'isConsumer' to check this role
   function isConsumer(address account) public view returns (bool) {
-    return consumers.has(account);
+    return Roles.has(consumers, account);
   }
 
   // Define a function 'addConsumer' that adds this role
@@ -41,13 +41,13 @@ contract ConsumerRole {
 
   // Define an internal function '_addConsumer' to add this role, called by 'addConsumer'
   function _addConsumer(address account) internal {
-    consumers.add(account);
+    Roles.add(consumers, account);
     emit ConsumerAdded(account);
   }
 
   // Define an internal function '_removeConsumer' to remove this role, called by 'removeConsumer'
   function _removeConsumer(address account) internal {
-    consumers.remove(account);
+    Roles.remove(consumers, account);
     emit ConsumerRemoved(account);
   }
 }
