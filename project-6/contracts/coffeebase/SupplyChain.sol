@@ -164,7 +164,7 @@ contract SupplyChain {
     items[_upc].originFarmLongitude = _originFarmLongitude;
     items[_upc].productNotes = _productNotes;
     items[_upc].sku = sku;
-    items[_upc].ownerID = msg.sender;
+    items[_upc].ownerID = _originFarmerID;
     items[_upc].upc = _upc;
     items[_upc].itemState = State.Harvested;
     
@@ -215,6 +215,7 @@ contract SupplyChain {
   {
     // Update the appropriate fields
     items[_upc].itemState = State.ForSale;
+    items[_upc].productPrice = _price;
     itemsHistory[_upc].push(getStateKeyByValue(State.ForSale));
 
     // Emit the appropriate event
