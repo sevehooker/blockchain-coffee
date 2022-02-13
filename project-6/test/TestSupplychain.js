@@ -414,28 +414,4 @@ contract("SupplyChain", function (accounts) {
       "Error: Invalid item consumerID"
     );
   });
-
-  // Bonus test
-  it("Testing smart contract function fetchItemHistory()) that allows anyone to fetch item details from blockchain", async () => {
-    const supplyChain = await SupplyChain.deployed();
-
-    // Retrieve the just now saved item from blockchain by calling function fetchItem()
-    const resultItemHistory = await supplyChain.fetchItemHistory.call(upc);
-
-    // Verify the result set:
-    assert.equal(
-      resultItemHistory,
-      [
-        "Harvested",
-        "Processed",
-        "Packed",
-        "ForSale",
-        "Sold",
-        "Shipped",
-        "Received",
-        "Purchased",
-      ],
-      "Error: Invalid item history"
-    );
-  });
 });

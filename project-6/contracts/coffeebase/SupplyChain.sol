@@ -173,7 +173,6 @@ contract SupplyChain is
         items[_upc].upc = _upc;
         items[_upc].itemState = State.Harvested;
 
-        itemsHistory[_upc].push(getStateKeyByValue(State.Harvested));
         // Increment sku
         sku = sku + 1;
 
@@ -191,7 +190,6 @@ contract SupplyChain is
     {
         // Update the appropriate fields
         items[_upc].itemState = State.Processed;
-        itemsHistory[_upc].push(getStateKeyByValue(State.Processed));
 
         // Emit the appropriate event
         emit Processed(_upc);
@@ -207,7 +205,6 @@ contract SupplyChain is
     {
         // Update the appropriate fields
         items[_upc].itemState = State.Packed;
-        itemsHistory[_upc].push(getStateKeyByValue(State.Packed));
 
         // Emit the appropriate event
         emit Packed(_upc);
@@ -224,7 +221,6 @@ contract SupplyChain is
         // Update the appropriate fields
         items[_upc].itemState = State.ForSale;
         items[_upc].productPrice = _price;
-        itemsHistory[_upc].push(getStateKeyByValue(State.ForSale));
 
         // Emit the appropriate event
         emit ForSale(_upc);
@@ -248,7 +244,6 @@ contract SupplyChain is
         items[_upc].ownerID = msg.sender;
         items[_upc].distributorID = msg.sender;
         items[_upc].itemState = State.Sold;
-        itemsHistory[_upc].push(getStateKeyByValue(State.Sold));
 
         // Transfer money to farmer
         items[_upc].originFarmerID.transfer(msg.value);
@@ -268,7 +263,6 @@ contract SupplyChain is
     {
         // Update the appropriate fields
         items[_upc].itemState = State.Shipped;
-        itemsHistory[_upc].push(getStateKeyByValue(State.Shipped));
 
         // Emit the appropriate event
         emit Shipped(_upc);
@@ -288,7 +282,6 @@ contract SupplyChain is
         items[_upc].retailerID = msg.sender;
         items[_upc].productID = items[_upc].sku + items[_upc].upc;
         items[_upc].itemState = State.Received;
-        itemsHistory[_upc].push(getStateKeyByValue(State.Received));
 
         // Emit the appropriate event
         emit Received(_upc);
@@ -307,7 +300,6 @@ contract SupplyChain is
         items[_upc].ownerID = msg.sender;
         items[_upc].consumerID = msg.sender;
         items[_upc].itemState = State.Purchased;
-        itemsHistory[_upc].push(getStateKeyByValue(State.Purchased));
 
         // Emit the appropriate event
         emit Purchased(_upc);
@@ -388,30 +380,5 @@ contract SupplyChain is
             retailerID,
             consumerID
         );
-    }
-
-    function fetchItemHistory(uint256 _upc)
-        public
-        view
-        returns (string[] memory)
-    {
-        return itemsHistory[_upc];
-    }
-
-    function getStateKeyByValue(State _state)
-        internal
-        pure
-        returns (string memory)
-    {
-        require(uint8(_state) <= 7);
-
-        if (_state == State.Harvested) return "Harvested";
-        if (_state == State.Processed) return "Processed";
-        if (_state == State.Packed) return "Packed";
-        if (_state == State.ForSale) return "ForSale";
-        if (_state == State.Sold) return "Sold";
-        if (_state == State.Shipped) return "Shipped";
-        if (_state == State.Received) return "Received";
-        if (_state == State.Purchased) return "Purchased";
     }
 }
